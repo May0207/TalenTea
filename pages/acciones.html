@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acciones - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <main class="container">
+    <h2>Pictogramas: Acciones</h2>
+    <div id="pictogramas" class="pictogramas"></div>
+    <a href="menu.html" class="btn">← Volver al Menú</a>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('../js/data.json')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('pictogramas');
+          const acciones = data.pictogramas.acciones;
+
+          acciones.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('pictograma');
+            div.innerHTML = `
+              <div class="pic-box">
+                <div class="pic-header">
+                  <button class="volumen" onclick="reproducirVoz('${item.nombre}')">🔊</button>
+                  <button class="favorito" onclick="agregarAFavoritos(${item.id})">🤍</button>
+                </div>
+                <img src="../img/pictogramas/${item.imagen}" alt="${item.nombre}">
+                <p>${item.nombre}</p>
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        });
+    });
+
+    function agregarAFavoritos(id) {
+      let usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
+      if (!usuario) {
+        alert("Inicia sesión primero.");
+        return;
+      }
+
+      if (!usuario.favoritos) {
+        usuario.favoritos = [];
+      }
+
+      if (!usuario.favoritos.includes(id)) {
+        usuario.favoritos.push(id);
+        localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
+        alert('¡Añadido a favoritos!');
+      } else {
+        alert('¡Ya está en favoritos!');
+      }
+    }
+
+    function reproducirVoz(texto) {
+      const voz = new SpeechSynthesisUtterance(texto);
+      voz.lang = 'es-ES';
+      voz.rate = 0.9;
+      speechSynthesis.speak(voz);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <main class="container">
+    <h2>Crear Cuenta</h2>
+    <form id="registerForm">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="apellido" placeholder="Apellido" required>
+      <input type="email" id="email" placeholder="Correo electrónico" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit">Registrar</button>
+    </form>
+    <br>
+    <a href="login.html" class="btn">Ya tengo una cuenta</a>
+  </main>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nuevoUsuario = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      };
+
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      alert('Cuenta creada con éxito');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menú Principal - TalenTea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+  <!-- Menú hamburguesa lateral -->
+<div class="sidebar" id="sidebar">
+  <ul class="sidebar-list">
+    <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+    <li><a href="favoritos.html"><i class="fas fa-star"></i> Favoritos</a></li>
+    <li><a href="notificaciones.html"><i class="fas fa-bell"></i> Notificaciones</a></li>
+    <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
+  </ul>
+  <div class="cerrar-sesion">
+    <a href="#" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+  </div>
+</div>
+
+<div class="topbar">
+  <h3>MENÚ</h3>
+  <div class="menu-icon" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </div>
+</div>
+
+  <main class="categorias">
+    <a href="comidas.html" class="categoria"><img src="../img/iconos/comidas.png" alt=""><span>Comidas</span></a>
+    <a href="emociones.html" class="categoria"><img src="../img/iconos/emociones.png" alt=""><span>Emociones</span></a>
+    <a href="acciones.html" class="categoria"><img src="../img/iconos/acciones.png" alt=""><span>Acciones</span></a>
+    <a href="pronombres.html" class="categoria"><img src="../img/iconos/pronombres.png" alt=""><span>Pronombres</span></a>
+    <a href="lugares.html" class="categoria"><img src="../img/iconos/lugares.png" alt=""><span>Lugares</span></a>
+    <a href="personas.html" class="categoria"><img src="../img/iconos/personas.png" alt=""><span>Personas</span></a>
+    <a href="favoritos.html" class="categoria"><img src="../img/iconos/favoritos.png" alt=""><span>Favoritos</span></a>
+  </main>
+
+  
+  <footer class="footer-nav">
+    <a href="menu.html"><i class="fas fa-home"></i><br>Inicio</a>
+    <a href="consejos.html"><i class="fas fa-lightbulb"></i><br>Consejos</a>
+    <a href="perfil.html"><i class="fas fa-user"></i><br>Perfil</a>
+  </footer>
+
+  
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function cerrarSesion() {
+      if (confirm("¿Deseas cerrar sesión?")) {
+        localStorage.removeItem('usuarioActivo');
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+
+</body>
+</html>

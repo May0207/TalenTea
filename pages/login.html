@@ -1,0 +1,41 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <main class="container">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <br>
+    <a href="register.html" class="btn">Crear una cuenta</a>
+  </main>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const users = JSON.parse(localStorage.getItem('usuarios')) || [];
+      const usuario = users.find(u => u.email === email && u.password === password);
+
+      if (usuario) {
+        // ✅ Guarda sesión activa
+        localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
+        alert('Sesión iniciada correctamente');
+        window.location.href = 'menu.html';
+      } else {
+        alert('Correo o contraseña incorrectos');
+      }
+    });
+  </script>
+</body>
+</html>

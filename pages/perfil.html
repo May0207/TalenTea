@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .perfil-box {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: left;
+    }
+    .perfil-box h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .perfil-box p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .perfil-box .label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="perfil-box">
+      <h3>Mi Perfil</h3>
+      <p><span class="label">Nombre:</span> <span id="nombreUsuario">-</span></p>
+      <p><span class="label">Apellidos:</span> <span id="apellidosUsuario">-</span></p>
+      <p><span class="label">Correo electrónico:</span> <span id="emailUsuario">-</span></p>
+      <br>
+      <button class="btn" onclick="alert('Función de edición aún no implementada')">Editar</button>
+    </div>
+
+    <br>
+    <a href="menu.html" class="btn">← Volver al Menú</a>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
+
+      if (usuario) {
+        document.getElementById('nombreUsuario').textContent = usuario.nombre;
+        document.getElementById('apellidosUsuario').textContent = usuario.apellido || '-';
+        document.getElementById('emailUsuario').textContent = usuario.email;
+      } else {
+        alert("Debes iniciar sesión para ver tu perfil.");
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

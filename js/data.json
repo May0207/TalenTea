@@ -1,0 +1,83 @@
+{
+    "usuarios": [
+      {
+        "id": 1,
+        "nombre": "Carlos",
+        "apellido": "Zegarra",
+        "email": "carlos02@gmail.com",
+        "favoritos": [101, 201, 301]
+      }
+    ],
+    "pictogramas": {
+      "comidas": [
+        { "id": 101, "nombre": "GALLETA", "imagen": "galleta.png" },
+        { "id": 102, "nombre": "HAMBURGUESA", "imagen": "hamburguesa.png" },
+        { "id": 103, "nombre": "AGUA", "imagen": "agua.png" },
+        { "id": 104, "nombre": "JUGO", "imagen": "jugo.png" },
+        { "id": 105, "nombre": "LECHE", "imagen": "leche.png" },
+        { "id": 106, "nombre": "MANZANA", "imagen": "manzana.png" },
+        { "id": 107, "nombre": "PAN", "imagen": "pan.png" },
+        { "id": 108, "nombre": "YOGUR", "imagen": "yogur.png" },
+        { "id": 109, "nombre": "FRESA", "imagen": "fresa.png" },
+        { "id": 110, "nombre": "MELOCOTÓN", "imagen": "melocotón.png" },
+        { "id": 111, "nombre": "PIZZA", "imagen": "pizza.png" },
+        { "id": 112, "nombre": "HELADO", "imagen": "helado.png" },
+        { "id": 113, "nombre": "MERMELADA", "imagen": "mermelada.png" },
+        { "id": 114, "nombre": "PALTA", "imagen": "palta.png" },
+        { "id": 115, "nombre": "LECHUGA", "imagen": "lechuga.png" },
+        { "id": 116, "nombre": "SANDÍA", "imagen": "sandía.png" },
+        { "id": 117, "nombre": "ZANAHORIA", "imagen": "zanahoria.png" }
+      ],
+      "emociones": [
+        { "id": 201, "nombre": "FELIZ", "imagen": "feliz.png" },
+        { "id": 202, "nombre": "TRISTE", "imagen": "triste.png" },
+        { "id": 203, "nombre": "ENOJADO", "imagen": "enfado.png" },
+        { "id": 204, "nombre": "ASUSTADO", "imagen": "asustado.png" },
+        { "id": 205, "nombre": "CANSADO", "imagen": "cansado.png" },
+        { "id": 206, "nombre": "SORPRENDIDO", "imagen": "sorprendido.png" },
+        { "id": 207, "nombre": "TRANQUILO", "imagen": "tranquilo.png" },
+        { "id": 208, "nombre": "NERVIOSO", "imagen": "nervioso.png" },
+        { "id": 209, "nombre": "ORGULLOSO", "imagen": "orgulloso.png" },
+        { "id": 210, "nombre": "ENCANTADO", "imagen": "encantado.png" },
+        { "id": 211, "nombre": "ABURRIMIENTO", "imagen": "aburrimiento.png" }
+      ],
+      "acciones": [
+        { "id": 301, "nombre": "JUGAR", "imagen": "jugar.png" },
+        { "id": 302, "nombre": "CORRER", "imagen": "correr.png" },
+        { "id": 303, "nombre": "COMER", "imagen": "comer.png" },
+        { "id": 304, "nombre": "BEBER", "imagen": "beber.png" },
+        { "id": 305, "nombre": "DORMIR", "imagen": "dormir.png" },
+        { "id": 306, "nombre": "SALTAR", "imagen": "saltar.png" },
+        { "id": 307, "nombre": "LEER", "imagen": "leer.png" },
+        { "id": 308, "nombre": "BAILAR", "imagen": "bailar.png" },
+        { "id": 309, "nombre": "MIRAR", "imagen": "mirar.png" },
+        { "id": 310, "nombre": "TAPAR LA NARIZ", "imagen": "tapar la nariz.png" }
+      ],
+      "personas": [
+  { "id": 401, "nombre": "Mamá", "imagen": "mamá.png" },
+  { "id": 402, "nombre": "Papá", "imagen": "papá.png" },
+  { "id": 403, "nombre": "Hermano", "imagen": "hermano.png" },
+  { "id": 404, "nombre": "Amigo", "imagen": "amigo.png" },
+  { "id": 405, "nombre": "Profesora", "imagen": "profesora.png" }
+],
+"lugares": [
+  { "id": 501, "nombre": "Casa", "imagen": "casa.png" },
+  { "id": 502, "nombre": "Parque", "imagen": "parque.png" },
+  { "id": 503, "nombre": "Escuela", "imagen": "escuela.png" },
+  { "id": 504, "nombre": "Tienda", "imagen": "tienda.png" },
+  { "id": 505, "nombre": "Baño", "imagen": "baño.png" }
+],
+"pronombres": [
+  { "id": 601, "nombre": "Yo", "imagen": "yo.png" },
+  { "id": 602, "nombre": "Tú", "imagen": "tú.png" },
+  { "id": 603, "nombre": "Él", "imagen": "el.png" },
+  { "id": 604, "nombre": "Ella", "imagen": "ella.png" },
+  { "id": 605, "nombre": "Nosotros", "imagen": "nosotros.png" }
+]
+
+
+
+    }
+    
+  }
+  

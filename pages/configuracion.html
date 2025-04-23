@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuración - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .configuracion {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: left;
+    }
+    .configuracion h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .configuracion label {
+      display: block;
+      margin: 12px 0 5px;
+    }
+    .configuracion select,
+    .configuracion input[type=range] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+    }
+    .configuracion button {
+      margin-top: 20px;
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="configuracion">
+      <h3>Configuración de la App</h3>
+
+      <label for="tema">🎨 Color del tema:</label>
+      <select id="tema">
+        <option value="claro">Claro</option>
+        <option value="oscuro">Oscuro</option>
+      </select>
+
+      <label for="voz">🗣️ Tipo de voz:</label>
+      <select id="voz">
+        <option value="es-ES">Español - España</option>
+        <option value="es-MX">Español - México</option>
+      </select>
+
+      <label for="velocidad">🚀 Velocidad de habla:</label>
+      <input type="range" id="velocidad" min="0.5" max="2" step="0.1" value="1">
+
+      <label>🧩 Gestión de pictogramas:</label>
+      <button onclick="alert('Esta función se implementará pronto')">Añadir / Editar / Eliminar</button>
+
+      <button onclick="restablecerApp()">🔁 Restablecer aplicación</button>
+    </div>
+
+    <br>
+    <a href="menu.html" class="btn">← Volver al Menú</a>
+  </main>
+
+  <script>
+    function restablecerApp() {
+      if (confirm("¿Estás seguro de que deseas borrar todos los datos y restablecer la app?")) {
+        localStorage.clear();
+        alert("Aplicación restablecida.");
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

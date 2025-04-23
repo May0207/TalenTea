@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Notificaciones - TalenTea</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .notificaciones {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: left;
+    }
+    .notificaciones h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .notificaciones label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+    .notificaciones input[type="time"] {
+      width: 120px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="notificaciones">
+      <h3>Preferencias de Notificaciones</h3>
+
+      <label>
+        Permitir notificaciones
+        <input type="checkbox" id="permiteNotif">
+      </label>
+
+      <label>
+        Vibración
+        <input type="checkbox" id="vibracion">
+      </label>
+
+      <label>
+        Sonido
+        <input type="checkbox" id="sonido">
+      </label>
+
+      <label>
+        Recordatorio de uso diario
+        <input type="checkbox" id="recordatorio">
+      </label>
+
+      <label>
+        Consejo del día
+        <input type="checkbox" id="consejoDia">
+      </label>
+
+      <label>
+        Horario de notificación
+        <input type="time" id="horaNotif" value="09:00">
+      </label>
+    </div>
+
+    <br>
+    <a href="menu.html" class="btn">← Volver al Menú</a>
+  </main>
+
+  <script>
+    // Guardar y cargar preferencias (simulado)
+    const inputs = ['permiteNotif', 'vibracion', 'sonido', 'recordatorio', 'consejoDia', 'horaNotif'];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        const value = localStorage.getItem(id);
+        if (el.type === 'checkbox') el.checked = value === 'true';
+        if (el.type === 'time' && value) el.value = value;
+
+        el.addEventListener('change', () => {
+          localStorage.setItem(id, el.type === 'checkbox' ? el.checked : el.value);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
