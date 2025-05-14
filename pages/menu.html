@@ -50,17 +50,27 @@
 
   
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
-    }
+  const sidebar = document.getElementById('sidebar');
+  const menuIcon = document.querySelector('.menu-icon');
 
-    function cerrarSesion() {
-      if (confirm("¿Deseas cerrar sesión?")) {
-        localStorage.removeItem('usuarioActivo');
-        window.location.href = 'login.html';
-      }
+  menuIcon.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+      sidebar.classList.remove('active');
     }
-  </script>
+  });
+  
+  function cerrarSesion() {
+    if (confirm("¿Deseas cerrar sesión?")) {
+      localStorage.removeItem('usuarioActivo');
+      window.location.href = 'login.html';
+    }
+  }
+</script>
+
 
 </body>
 </html>

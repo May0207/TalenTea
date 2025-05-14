@@ -9,6 +9,7 @@ body {
   padding-bottom: 90px;
 }
 
+/* Nueva barra superior estilizada */
 .topbar {
   position: fixed;
   top: 0;
@@ -36,7 +37,6 @@ body {
   color: #333;
   cursor: pointer;
 }
-
 
 .container {
   text-align: center;
@@ -137,15 +137,80 @@ form button:hover {
   padding: 2px;
 }
 
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background: #e0e0e0;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+  padding: 20px 15px 60px;
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Permite scroll */
+}
 
-.sidebar a {
-  display: block;
-  margin: 15px 0;
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 60px 0; /* espacio para el botón cerrar sesión */
+  flex-grow: 1; /* que la lista ocupe el máximo espacio */
+  overflow-y: auto;
+}
+
+.sidebar-list li {
+  margin-bottom: 20px;
+}
+
+.sidebar-list a {
+  display: flex;
+  align-items: center;
   font-size: 16px;
-  color: #222;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.sidebar-list a i {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.cerrar-sesion {
+  position: fixed;
+  bottom: 10px;
+  width: 250px;
+  padding: 10px 15px;
+  background: #ccc;
+  border-radius: 6px;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 1100;
+}
+
+.cerrar-sesion a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #000;
+  font-size: 15px;
   text-decoration: none;
 }
 
+.cerrar-sesion a i {
+  margin-right: 10px;
+}
+
+/* Categorías */
 .categorias {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -182,6 +247,8 @@ form button:hover {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* Barra inferior */
 .footer-nav {
   position: fixed;
   bottom: 0;
@@ -205,68 +272,4 @@ form button:hover {
   font-size: 18px;
   display: block;
   margin-bottom: 3px;
-}
-
-/* Estilos para el menú hamburguesa lateral */
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 250px;
-  height: 100%;
-  background: #e0e0e0;
-  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
-  padding: 20px 15px 60px;
-  transition: right 0.3s ease-in-out;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidebar.active {
-  right: 0;
-}
-
-.sidebar-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-list li {
-  margin-bottom: 20px;
-}
-
-.sidebar-list a {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.sidebar-list a i {
-  margin-right: 12px;
-  font-size: 18px;
-}
-
-.cerrar-sesion {
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-  margin-top: 10px;
-}
-
-.cerrar-sesion a {
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  color: #000;
-  font-size: 15px;
-  text-decoration: none;
-}
-
-.cerrar-sesion a i {
-  margin-right: 10px;
 }
