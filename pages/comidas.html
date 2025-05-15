@@ -1,35 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Comidas - TalenTea</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <!-- Font Awesome para iconos -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 </head>
 <body>
+  <!-- Barra superior -->
+  <div class="topbar">
+    <h3>Comidas</h3>
+    <div class="menu-icon" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Menú hamburguesa lateral -->
+  <div class="sidebar" id="sidebar">
+    <ul class="sidebar-list">
+      <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+      <li><a href="favoritos.html"><i class="fas fa-star"></i> Favoritos</a></li>
+      <li><a href="notificaciones.html"><i class="fas fa-bell"></i> Notificaciones</a></li>
+      <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
+    </ul>
+    <div class="cerrar-sesion">
+      <a href="#" onclick="cerrarSesion()"
+        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
+      >
+    </div>
+  </div>
+
   <main class="container">
-    <h2>Pictogramas: Comidas</h2>
     <div id="pictogramas" class="pictogramas"></div>
-    <a href="menu.html" class="btn">← Volver al Menú</a>
   </main>
 
+  <!-- Barra inferior -->
+  <footer class="footer-nav">
+    <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
+    <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
+    <a href="perfil.html"><i class="fas fa-user"></i><br />Perfil</a>
+  </footer>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('../js/data.json')
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById('pictogramas');
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    function cerrarSesion() {
+      if (confirm("¿Deseas cerrar sesión?")) {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("../js/data.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const container = document.getElementById("pictogramas");
           const comidas = data.pictogramas.comidas;
 
-          comidas.forEach(item => {
-            const div = document.createElement('div');
-            div.classList.add('pictograma');
+          comidas.forEach((item) => {
+            const div = document.createElement("div");
+            div.classList.add("pictograma");
             div.innerHTML = `
               <div class="pic-box">
                 <div class="pic-header">
                   <button class="volumen" onclick="reproducirVoz('${item.nombre}')">🔊</button>
                   <button class="favorito" onclick="agregarAFavoritos(${item.id})">🤍</button>
                 </div>
-                <img src="../img/pictogramas/${item.imagen}" alt="${item.nombre}">
+                <img src="../img/pictogramas/${item.imagen}" alt="${item.nombre}" />
                 <p>${item.nombre}</p>
               </div>
             `;
@@ -39,7 +84,7 @@
     });
 
     function agregarAFavoritos(id) {
-      let usuario = JSON.parse(localStorage.getItem('usuarioActivo'));
+      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
       if (!usuario) {
         alert("Inicia sesión primero.");
         return;
@@ -51,16 +96,16 @@
 
       if (!usuario.favoritos.includes(id)) {
         usuario.favoritos.push(id);
-        localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-        alert('¡Añadido a favoritos!');
+        localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+        alert("¡Añadido a favoritos!");
       } else {
-        alert('¡Ya está en favoritos!');
+        alert("¡Ya está en favoritos!");
       }
     }
 
     function reproducirVoz(texto) {
       const voz = new SpeechSynthesisUtterance(texto);
-      voz.lang = 'es-ES';
+      voz.lang = "es-ES";
       voz.rate = 0.9;
       speechSynthesis.speak(voz);
     }

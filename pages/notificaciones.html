@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Notificaciones - TalenTea</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
   <style>
     .notificaciones {
       max-width: 600px;
@@ -30,6 +35,29 @@
   </style>
 </head>
 <body>
+  <!-- Barra superior -->
+  <div class="topbar">
+    <h3>Notificaciones</h3>
+    <div class="menu-icon" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Menú hamburguesa lateral -->
+  <div class="sidebar" id="sidebar">
+    <ul class="sidebar-list">
+      <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+      <li><a href="favoritos.html"><i class="fas fa-star"></i> Favoritos</a></li>
+      <li><a href="notificaciones.html"><i class="fas fa-bell"></i> Notificaciones</a></li>
+      <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
+    </ul>
+    <div class="cerrar-sesion">
+      <a href="#" onclick="cerrarSesion()"
+        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
+      >
+    </div>
+  </div>
+
   <main class="container">
     <div class="notificaciones">
       <h3>Preferencias de Notificaciones</h3>
@@ -64,12 +92,27 @@
         <input type="time" id="horaNotif" value="09:00">
       </label>
     </div>
-
-    <br>
-    <a href="menu.html" class="btn">← Volver al Menú</a>
   </main>
 
+  <!-- Barra inferior -->
+  <footer class="footer-nav">
+    <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
+    <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
+    <a href="perfil.html"><i class="fas fa-user"></i><br />Perfil</a>
+  </footer>
+
   <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    function cerrarSesion() {
+      if (confirm("¿Deseas cerrar sesión?")) {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
+      }
+    }
+
     // Guardar y cargar preferencias (simulado)
     const inputs = ['permiteNotif', 'vibracion', 'sonido', 'recordatorio', 'consejoDia', 'horaNotif'];
 
