@@ -273,3 +273,314 @@ form button:hover {
   display: block;
   margin-bottom: 3px;
 }
+/* Estilo fondo oscuro para login */
+.dark-bg {
+  background-color: #000;
+  color: white;
+}
+
+.login-container {
+  max-width: 350px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.logo-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.blue-dot {
+  color: #00bfff;
+}
+
+.heart-logo {
+  width: 120px;
+  margin: 10px 0 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form label {
+  align-self: flex-start;
+  font-size: 14px;
+  margin: 10px 0 5px;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: none;
+}
+
+.forgot-link {
+  font-size: 13px;
+  color: white;
+  margin-bottom: 15px;
+  text-decoration: underline;
+}
+
+.btn.login-btn {
+  background-color: white;
+  color: black;
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-weight: bold;
+  width: 100%;
+}
+
+.secondary-btn {
+  margin-top: 10px;
+  background-color: #ddd;
+  color: black;
+  padding: 12px 20px;
+  border-radius: 14px;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  width: 100%;
+}
+
+.or-text {
+  margin: 10px 0;
+  font-size: 13px;
+}
+.register-container {
+  max-width: 350px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.register-container h1 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.heart-logo {
+  width: 130px;
+  margin: 15px 0;
+}
+
+.register-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-container form label {
+  align-self: flex-start;
+  font-size: 14px;
+  margin: 10px 0 5px;
+}
+
+.register-container form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: none;
+}
+
+.register-container .btn {
+  background-color: black;
+  color: white;
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-weight: bold;
+  width: 100%;
+}
+/* Estilo solo para el index (pantalla de inicio) */
+body.inicio {
+  background-color: black;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.inicio .logo-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.inicio .blue-dot {
+  color: #00bfff;
+}
+
+.inicio .heart-logo {
+  width: 130px;
+  margin: 20px auto;
+  display: block;
+}
+
+.inicio .botones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.inicio .botones .btn {
+  background-color: white;
+  color: black;
+  padding: 12px 30px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  width: 220px;
+}
+/* ESTILOS PARA LA PANTALLA DE REGISTRO */
+body.registro {
+  background-color: white;
+  color: black;
+  font-family: 'Segoe UI', sans-serif;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.registro h1 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.heart-logo {
+  width: 130px;
+  margin: 10px auto 20px;
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+form label {
+  align-self: flex-start;
+  font-size: 14px;
+  margin: 10px 0 5px;
+  width: 80%;
+  max-width: 300px;
+}
+
+form input {
+  width: 80%;
+  max-width: 300px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+form button {
+  width: 80%;
+  max-width: 300px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #333;
+}
+.heart-logo {
+  width: 130px;
+  margin: 20px auto;
+  display: block;
+}
+a.btn {
+  display: inline-block;
+  background-color: #e0e0e0; /* gris claro */
+  color: black;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  width: 80%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+.dark-bg {
+  background-color: #000;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.logo-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.blue-dot {
+  color: #00bfff;
+}
+
+.heart-logo {
+  width: 130px;
+  margin: 20px auto;
+  display: block;
+}
+
+form input {
+  width: 80%;
+  max-width: 300px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  border: none;
+}
+
+form button {
+  width: 80%;
+  max-width: 300px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #ccc;
+}
+
+a.btn {
+  display: inline-block;
+  background-color: #e0e0e0;
+  color: black;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  width: 80%;
+  max-width: 300px;
+  margin-top: 10px;
+}
