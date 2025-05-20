@@ -304,18 +304,18 @@ body.inicio h2 {
 }
 
 /* ==============================
-   CARD-STYLE PARA CONSEJOS
+   CARD-STYLE PARA CONSEJOS (REVISADO)
    ============================== */
 .consejos {
   max-width: 480px;
-  margin: 20px auto;
-  padding: 0;
+  margin: 80px auto 24px;  /* deja espacio bajo la topbar y antes del footer */
+  padding: 0 16px;         /* margen interno a los lados */
 }
 
 .consejos h3 {
   text-align: center;
-  font-size: 1.4rem;
-  margin-bottom: 20px;
+  font-size: 1.6rem;
+  margin-bottom: 24px;
   color: #333;
 }
 
@@ -324,19 +324,19 @@ body.inicio h2 {
   display: flex;
   align-items: flex-start;
   background: #f0f0f0;
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  padding: 16px 20px;      /* más colchón interior */
+  margin-bottom: 16px;     /* más separación entre tarjetas */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Icono a la izquierda */
 .consejo-item i {
-  font-size: 24px;
+  font-size: 28px;
   flex-shrink: 0;
-  margin-right: 12px;
+  margin-right: 16px;
   color: #333;
-  margin-top: 4px; /* centra un poco verticalmente */
+  margin-top: 2px;         
 }
 
 /* Contenedor de texto */
@@ -347,25 +347,15 @@ body.inicio h2 {
 /* Título del consejo */
 .consejo-item .texto strong {
   display: block;
-  font-size: 1rem;
-  margin-bottom: 4px;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
   color: #222;
 }
 
 /* Descripción */
 .consejo-item .texto p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin: 0;
   color: #555;
-  line-height: 1.3;
-}
-
-/* Asegúrate de que el topbar y footer-nav siguen visibles */
-.topbar, .footer-nav {
-  /* ya vienen en tu CSS global */
-}
-
-/* Si quieres ajustar fondo de la sección */
-body /* o .consejos */ {
-  /* background: #fff; */
+  line-height: 1.4;
 }

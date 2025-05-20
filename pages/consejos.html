@@ -9,39 +9,9 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
-  <style>
-    .consejos {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: left;
-      padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-    .consejos h3 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .consejos ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
-    .consejos li {
-      margin-bottom: 12px;
-    }
-  </style>
 </head>
 <body>
-  <!-- Barra superior -->
-  <div class="topbar">
-    <h3>Consejos</h3>
-    <div class="menu-icon" onclick="toggleSidebar()">
-      <i class="fas fa-bars"></i>
-    </div>
-  </div>
-
-  <!-- Menú hamburguesa lateral -->
+  <!-- Sidebar hamburguesa -->
   <div class="sidebar" id="sidebar">
     <ul class="sidebar-list">
       <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
@@ -50,60 +20,68 @@
       <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
     </ul>
     <div class="cerrar-sesion">
-      <a href="#" onclick="cerrarSesion()"
-        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
-      >
+      <a href="#" id="cerrarSesionBtn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </a>
     </div>
   </div>
 
+  <!-- Topbar con botón hamburguesa -->
+  <div class="topbar">
+    <h3>Consejos</h3>
+    <div class="menu-icon">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
   <main class="container">
-  <div class="consejos">
-    <h3>Consejos para el uso de TalenTea</h3>
-    <div class="consejo-item">
-      <i class="fas fa-calendar-alt"></i>
-      <div class="texto">
-        <strong>Usa la app todos los días</strong>
-        <p>La repetición ayuda a fortalecer la comunicación.</p>
+    <div class="consejos">
+      <h3>CONSEJOS PARA EL USO DE LA APP</h3>
+      <div class="consejo-item">
+        <i class="fas fa-calendar-alt"></i>
+        <div class="texto">
+          <strong>Usa la app todos los días</strong>
+          <p>La repetición ayuda a fortalecer la comunicación.</p>
+        </div>
+      </div>
+      <div class="consejo-item">
+        <i class="fas fa-puzzle-piece"></i>
+        <div class="texto">
+          <strong>Personaliza los pictogramas</strong>
+          <p>Añade imágenes reales del entorno del niño.</p>
+        </div>
+      </div>
+      <div class="consejo-item">
+        <i class="fas fa-volume-up"></i>
+        <div class="texto">
+          <strong>Acompaña con lenguaje oral</strong>
+          <p>Nombra el pictograma en voz alta al tocarlo.</p>
+        </div>
+      </div>
+      <div class="consejo-item">
+        <i class="fas fa-heart"></i>
+        <div class="texto">
+          <strong>Valida cada intención de comunicación</strong>
+          <p>Refuerza positivamente cualquier intento de expresarse.</p>
+        </div>
+      </div>
+      <div class="consejo-item">
+        <i class="fas fa-book-open"></i>
+        <div class="texto">
+          <strong>Utiliza rutinas visuales</strong>
+          <p>Organiza pictogramas para mostrar actividades diarias.</p>
+        </div>
+      </div>
+      <div class="consejo-item">
+        <i class="fas fa-star"></i>
+        <div class="texto">
+          <strong>Guarda pictogramas favoritos</strong>
+          <p>Elige los pictogramas que más usa el niño y guárdalos para acceder fácilmente.</p>
+        </div>
       </div>
     </div>
-    <div class="consejo-item">
-      <i class="fas fa-puzzle-piece"></i>
-      <div class="texto">
-        <strong>Personaliza los pictogramas</strong>
-        <p>Añade imágenes reales del entorno del niño.</p>
-      </div>
-    </div>
-    <div class="consejo-item">
-      <i class="fas fa-volume-up"></i>
-      <div class="texto">
-        <strong>Acompaña con lenguaje oral</strong>
-        <p>Nombra el pictograma en voz alta al tocarlo.</p>
-      </div>
-    </div>
-    <div class="consejo-item">
-      <i class="fas fa-heart"></i>
-      <div class="texto">
-        <strong>Valida cada intención de comunicación</strong>
-        <p>Refuerza positivamente cualquier intento de expresarse.</p>
-      </div>
-    </div>
-    <div class="consejo-item">
-      <i class="fas fa-book-open"></i>
-      <div class="texto">
-        <strong>Utiliza rutinas visuales</strong>
-        <p>Organiza pictogramas para mostrar actividades diarias.</p>
-      </div>
-    </div>
-    <div class="consejo-item">
-      <i class="fas fa-star"></i>
-      <div class="texto">
-        <strong>Guarda pictogramas favoritos</strong>
-        <p>Elige los pictogramas que más usa el niño y guárdalos para acceder fácilmente.</p>
-      </div>
-    </div>
-  </div>
-</main>
-
+  </main>
 
   <!-- Barra inferior -->
   <footer class="footer-nav">
@@ -112,17 +90,33 @@
     <a href="perfil.html"><i class="fas fa-user"></i><br />Perfil</a>
   </footer>
 
+  <!-- Script de menú hamburguesa -->
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
+    const sidebar  = document.getElementById('sidebar');
+    const menuIcon = document.querySelector('.menu-icon');
+    const cerrarBtn = document.getElementById('cerrarSesionBtn');
 
-    function cerrarSesion() {
+    // Alterna la clase .active en sidebar
+    menuIcon.addEventListener('click', e => {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+
+    // Cierra si haces clic fuera del sidebar o del icono
+    document.addEventListener('click', event => {
+      if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Función de cerrar sesión
+    cerrarBtn.addEventListener('click', e => {
+      e.preventDefault();
       if (confirm("¿Deseas cerrar sesión?")) {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
       }
-    }
+    });
   </script>
 </body>
 </html>

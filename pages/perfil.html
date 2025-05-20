@@ -10,38 +10,63 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
   <style>
+    /* Estilos específicos de la pantalla Perfil */
     .perfil-box {
-      max-width: 500px;
-      margin: 0 auto;
+      max-width: 480px;
+      margin: 80px auto 140px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: left;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 24px;
+      text-align: center;
+    }
+    /* Avatar como icono */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #e0f7ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 48px;
+      color: #66ccff;
     }
     .perfil-box h3 {
-      text-align: center;
+      font-size: 1.4rem;
       margin-bottom: 20px;
+      color: #333;
     }
     .perfil-box p {
       font-size: 1rem;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.4;
+      text-align: left;
     }
     .perfil-box .label {
-      font-weight: bold;
+      font-weight: 600;
+      color: #555;
+    }
+    .perfil-box .btn {
+      display: block;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: #66ccff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .perfil-box .btn:hover {
+      background: #55b7e6;
     }
   </style>
 </head>
 <body>
-  <!-- Barra superior -->
-  <div class="topbar">
-    <h3>Perfil</h3>
-    <div class="menu-icon" onclick="toggleSidebar()">
-      <i class="fas fa-bars"></i>
-    </div>
-  </div>
-
-  <!-- Menú hamburguesa lateral -->
+  <!-- Sidebar hamburguesa -->
   <div class="sidebar" id="sidebar">
     <ul class="sidebar-list">
       <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
@@ -50,22 +75,32 @@
       <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
     </ul>
     <div class="cerrar-sesion">
-      <a href="#" onclick="cerrarSesion()"
-        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
-      >
+      <a href="#" id="cerrarSesionBtn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </a>
     </div>
   </div>
 
+  <!-- Topbar con hamburguesa -->
+  <div class="topbar">
+    <h3>Perfil</h3>
+    <div class="menu-icon">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
   <main class="container">
     <div class="perfil-box">
+      <!-- Avatar como icono -->
+      <div class="avatar">
+        <i class="fas fa-user"></i>
+      </div>
       <h3>Mi Perfil</h3>
       <p><span class="label">Nombre:</span> <span id="nombreUsuario">-</span></p>
       <p><span class="label">Apellidos:</span> <span id="apellidosUsuario">-</span></p>
       <p><span class="label">Correo electrónico:</span> <span id="emailUsuario">-</span></p>
-      <br />
-      <button class="btn" onclick="alert('Función de edición aún no implementada')">
-        Editar
-      </button>
+      <button class="btn" id="editarPerfilBtn">Editar perfil</button>
     </div>
   </main>
 
@@ -77,29 +112,53 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
+    const sidebar  = document.getElementById('sidebar');
+    const menuIcon = document.querySelector('.menu-icon');
+    const cerrarBtn = document.getElementById('cerrarSesionBtn');
+    const editarBtn = document.getElementById('editarPerfilBtn');
 
-    function cerrarSesion() {
+    // Alterna el sidebar
+    menuIcon.addEventListener('click', e => {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+
+    // Cierra al clicar fuera
+    document.addEventListener('click', event => {
+      if (
+        !sidebar.contains(event.target) &&
+        !menuIcon.contains(event.target)
+      ) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Cerrar sesión
+    cerrarBtn.addEventListener('click', e => {
+      e.preventDefault();
       if (confirm("¿Deseas cerrar sesión?")) {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
       }
-    }
+    });
 
+    // Editar perfil (placeholder)
+    editarBtn.addEventListener('click', () => {
+      alert('Función de edición aún no implementada');
+    });
+
+    // Cargar datos de usuario
     document.addEventListener("DOMContentLoaded", () => {
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-      if (usuario) {
-        document.getElementById("nombreUsuario").textContent = usuario.nombre;
-        document.getElementById("apellidosUsuario").textContent =
-          usuario.apellido || "-";
-        document.getElementById("emailUsuario").textContent = usuario.email;
-      } else {
+      if (!usuario) {
         alert("Debes iniciar sesión para ver tu perfil.");
         window.location.href = "login.html";
+        return;
       }
+      document.getElementById("nombreUsuario").textContent = usuario.nombre;
+      document.getElementById("apellidosUsuario").textContent =
+        usuario.apellido || "-";
+      document.getElementById("emailUsuario").textContent = usuario.email;
     });
   </script>
 </body>
