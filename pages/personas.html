@@ -5,22 +5,40 @@
   <title>Personas - TalenTea</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../css/style.css" />
-  <!-- Font Awesome para iconos -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
+  <style>
+    /* Favorito relleno en rojo */
+    .favorito.fas { color: red; }
+
+    /* Tarjeta “+” para añadir nuevo pictograma */
+    .pictograma.add {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 120px;
+      height: 140px;
+      font-size: 2rem;
+      color: #666;
+      transition: background .2s;
+    }
+    .pictograma.add:hover { background: #e0e0e0; }
+  </style>
 </head>
 <body>
-  <!-- Barra superior -->
+  <!-- Topbar -->
   <div class="topbar">
     <h3>Personas</h3>
-    <div class="menu-icon" onclick="toggleSidebar()">
-      <i class="fas fa-bars"></i>
-    </div>
+    <div class="menu-icon"><i class="fas fa-bars"></i></div>
   </div>
 
-  <!-- Menú hamburguesa lateral -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <ul class="sidebar-list">
       <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
@@ -29,17 +47,16 @@
       <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
     </ul>
     <div class="cerrar-sesion">
-      <a href="#" onclick="cerrarSesion()"
-        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
-      >
+      <a href="#" id="cerrarSesionBtn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     </div>
   </div>
 
+  <!-- Contenido -->
   <main class="container">
     <div id="pictogramas" class="pictogramas"></div>
   </main>
 
-  <!-- Barra inferior -->
+  <!-- Footer -->
   <footer class="footer-nav">
     <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
     <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
@@ -47,67 +64,119 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
+    const sidebar   = document.getElementById('sidebar');
+    const menuIcon  = document.querySelector('.menu-icon');
+    const cerrarBtn = document.getElementById('cerrarSesionBtn');
+    const container = document.getElementById('pictogramas');
 
-    function cerrarSesion() {
+    // Toggle sidebar
+    menuIcon.addEventListener('click', e => {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', e => {
+      if (!sidebar.contains(e.target) && !menuIcon.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Cerrar sesión
+    cerrarBtn.addEventListener('click', e => {
+      e.preventDefault();
       if (confirm("¿Deseas cerrar sesión?")) {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
       }
-    }
+    });
 
+    // Al cargar, obtenemos y mostramos pictogramas de personas
     document.addEventListener("DOMContentLoaded", () => {
       fetch("../js/data.json")
-        .then((response) => response.json())
-        .then((data) => {
-          const container = document.getElementById("pictogramas");
-          const personas = data.pictogramas.personas;
-
-          personas.forEach((item) => {
-            const div = document.createElement("div");
-            div.classList.add("pictograma");
-            div.innerHTML = `
-              <div class="pic-box">
-                <div class="pic-header">
-                  <button class="volumen" onclick="reproducirVoz('${item.nombre}')">🔊</button>
-                  <button class="favorito" onclick="agregarAFavoritos(${item.id})">🤍</button>
-                </div>
-                <img src="../img/pictogramas/${item.imagen}" alt="${item.nombre}" />
-                <p>${item.nombre}</p>
-              </div>
-            `;
-            container.appendChild(div);
-          });
+        .then(r => r.json())
+        .then(data => {
+          const originales = data.pictogramas.personas;
+          const extras      = JSON.parse(localStorage.getItem('extrasPersonas')) || [];
+          const all         = originales.concat(extras);
+          all.forEach(renderPictograma);
+          renderAddTile();
         });
     });
 
-    function agregarAFavoritos(id) {
-      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      if (!usuario) {
-        alert("Inicia sesión primero.");
-        return;
-      }
-
-      if (!usuario.favoritos) {
-        usuario.favoritos = [];
-      }
-
-      if (!usuario.favoritos.includes(id)) {
-        usuario.favoritos.push(id);
-        localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-        alert("¡Añadido a favoritos!");
-      } else {
-        alert("¡Ya está en favoritos!");
-      }
+    // Render de cada pictograma
+    function renderPictograma(item) {
+      const div   = document.createElement("div");
+      div.classList.add("pictograma");
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo")) || {};
+      const favs    = usuario.favoritos || [];
+      const isFav   = favs.includes(item.id);
+      const src     = item.imagenData || `../img/pictogramas/${item.imagen}`;
+      div.innerHTML = `
+        <div class="pic-box">
+          <div class="pic-header">
+            <button class="volumen" onclick="reproducirVoz('${item.nombre}')">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <i class="favorito ${isFav ? 'fas' : 'far'} fa-heart"
+               onclick="toggleFavorito(${item.id}, this)"></i>
+          </div>
+          <img src="${src}" alt="${item.nombre}" />
+          <p>${item.nombre}</p>
+        </div>
+      `;
+      container.appendChild(div);
     }
 
+    // Tile “+” para añadir un nuevo pictograma de personas
+    function renderAddTile() {
+      const div = document.createElement("div");
+      div.classList.add("pictograma","add");
+      div.innerHTML = `<i class="fas fa-plus"></i>`;
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.style.display = "none";
+
+      fileInput.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataURL = reader.result;
+          const nombre  = prompt("Nombre del nuevo pictograma:");
+          if (!nombre) return;
+          const nuevo = { id: Date.now(), nombre, imagenData: dataURL };
+          const extras = JSON.parse(localStorage.getItem('extrasPersonas')) || [];
+          extras.push(nuevo);
+          localStorage.setItem('extrasPersonas', JSON.stringify(extras));
+          renderPictograma(nuevo);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.body.appendChild(fileInput);
+      div.addEventListener('click', () => fileInput.click());
+      container.appendChild(div);
+    }
+
+    // Togglear favorito
+    function toggleFavorito(id, iconEl) {
+      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      if (!usuario) return alert("Inicia sesión primero.");
+      usuario.favoritos = usuario.favoritos || [];
+      const idx = usuario.favoritos.indexOf(id);
+      if (idx === -1) usuario.favoritos.push(id);
+      else            usuario.favoritos.splice(idx,1);
+      localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+      iconEl.classList.toggle('fas');
+      iconEl.classList.toggle('far');
+    }
+
+    // Reproducción de voz
     function reproducirVoz(texto) {
-      const voz = new SpeechSynthesisUtterance(texto);
-      voz.lang = "es-ES";
-      voz.rate = 0.9;
-      speechSynthesis.speak(voz);
+      const u = new SpeechSynthesisUtterance(texto);
+      u.lang = "es-ES";
+      u.rate = 0.9;
+      speechSynthesis.speak(u);
     }
   </script>
 </body>
