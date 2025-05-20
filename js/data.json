@@ -1,13 +1,5 @@
 {
-    "usuarios": [
-      {
-        "id": 1,
-        "nombre": "Carlos",
-        "apellido": "Zegarra",
-        "email": "carlos02@gmail.com",
-        "favoritos": [101, 201, 301]
-      }
-    ],
+    
     "pictogramas": {
       "comidas": [
         { "id": 101, "nombre": "GALLETA", "imagen": "galleta.png" },
