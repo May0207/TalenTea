@@ -12,7 +12,8 @@
   <style>
     /* Corazón relleno en favoritos */
     .favorito.fas { color: red; }
-    /* Tile de “Añadir” */
+
+    /* Tile “+” para añadir nuevos pictogramas */
     .pictograma.add {
       cursor: pointer;
       display: flex;
@@ -27,13 +28,11 @@
       color: #666;
       transition: background .2s;
     }
-    .pictograma.add:hover {
-      background: #e0e0e0;
-    }
+    .pictograma.add:hover { background: #e0e0e0; }
   </style>
 </head>
 <body>
-  <!-- Barra superior -->
+  <!-- Topbar -->
   <div class="topbar">
     <h3>Comidas</h3>
     <div class="menu-icon"><i class="fas fa-bars"></i></div>
@@ -52,11 +51,12 @@
     </div>
   </div>
 
+  <!-- Contenido -->
   <main class="container">
     <div id="pictogramas" class="pictogramas"></div>
   </main>
 
-  <!-- Barra inferior -->
+  <!-- Footer -->
   <footer class="footer-nav">
     <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
     <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
@@ -69,7 +69,7 @@
     const cerrarBtn = document.getElementById('cerrarSesionBtn');
     const container = document.getElementById('pictogramas');
 
-    // Abrir/cerrar sidebar
+    // Toggle sidebar
     menuIcon.addEventListener('click', e => {
       e.stopPropagation();
       sidebar.classList.toggle('active');
@@ -89,7 +89,7 @@
       }
     });
 
-    // Al cargar, leemos pictogramas y extras, renderizamos todo
+    // Carga inicial de pictogramas de Comidas + extras
     document.addEventListener("DOMContentLoaded", () => {
       fetch("../js/data.json")
         .then(r => r.json())
@@ -102,15 +102,14 @@
         });
     });
 
-    // Render de cada pictograma
+    // Muestra un pictograma
     function renderPictograma(item) {
       const div = document.createElement("div");
       div.classList.add("pictograma");
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo")) || {};
       const favs    = usuario.favoritos || [];
       const isFav   = favs.includes(item.id);
-      // si es imagen subida, estará en item.imagenData
-      const src = item.imagenData || `../img/pictogramas/${item.imagen}`;
+      const src     = item.imagenData || `../img/pictogramas/${item.imagen}`;
       div.innerHTML = `
         <div class="pic-box">
           <div class="pic-header">
@@ -127,12 +126,11 @@
       container.appendChild(div);
     }
 
-    // Render del botón “+” que abre diálogo de fichero
+    // Tile “+” para subir nuevo pictograma
     function renderAddTile() {
       const div = document.createElement("div");
       div.classList.add("pictograma","add");
       div.innerHTML = `<i class="fas fa-plus"></i>`;
-      // input oculto para subir fichero
       const fileInput = document.createElement("input");
       fileInput.type = "file";
       fileInput.accept = "image/*";
@@ -145,11 +143,7 @@
           const dataURL = reader.result;
           const nombre = prompt("Nombre del nuevo pictograma:");
           if (!nombre) return;
-          const nuevo = {
-            id: Date.now(),
-            nombre,
-            imagenData: dataURL
-          };
+          const nuevo = { id: Date.now(), nombre, imagenData: dataURL };
           const extras = JSON.parse(localStorage.getItem('extrasComidas')) || [];
           extras.push(nuevo);
           localStorage.setItem('extrasComidas', JSON.stringify(extras));
@@ -158,13 +152,13 @@
         reader.readAsDataURL(file);
       });
       document.body.appendChild(fileInput);
-
       div.addEventListener('click', () => fileInput.click());
       container.appendChild(div);
     }
 
-    // Toggle favoritos
+    // Marcar / desmarcar favorito y persistir en ambos objetos
     function toggleFavorito(id, iconEl) {
+      // 1) Actualiza usuarioActivo
       let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
       if (!usuario) return alert("Inicia sesión primero.");
       usuario.favoritos = usuario.favoritos || [];
@@ -172,11 +166,21 @@
       if (idx === -1) usuario.favoritos.push(id);
       else            usuario.favoritos.splice(idx,1);
       localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+      // 2) Actualiza el array global 'usuarios'
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const uIdx = usuarios.findIndex(u => u.email === usuario.email);
+      if (uIdx > -1) {
+        usuarios[uIdx].favoritos = usuario.favoritos;
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      }
+
+      // 3) Cambia el icono
       iconEl.classList.toggle('fas');
       iconEl.classList.toggle('far');
     }
 
-    // Lectura de voz
+    // Texto a voz
     function reproducirVoz(texto) {
       const u = new SpeechSynthesisUtterance(texto);
       u.lang = "es-ES";

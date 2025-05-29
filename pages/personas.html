@@ -5,15 +5,9 @@
   <title>Personas - TalenTea</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../css/style.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Favorito relleno en rojo */
     .favorito.fas { color: red; }
-
-    /* Tarjeta “+” para añadir nuevo pictograma */
     .pictograma.add {
       cursor: pointer;
       display: flex;
@@ -69,7 +63,7 @@
     const cerrarBtn = document.getElementById('cerrarSesionBtn');
     const container = document.getElementById('pictogramas');
 
-    // Toggle sidebar
+    // Sidebar toggle
     menuIcon.addEventListener('click', e => {
       e.stopPropagation();
       sidebar.classList.toggle('active');
@@ -89,27 +83,26 @@
       }
     });
 
-    // Al cargar, obtenemos y mostramos pictogramas de personas
+    // Carga pictogramas
     document.addEventListener("DOMContentLoaded", () => {
       fetch("../js/data.json")
         .then(r => r.json())
         .then(data => {
           const originales = data.pictogramas.personas;
-          const extras      = JSON.parse(localStorage.getItem('extrasPersonas')) || [];
-          const all         = originales.concat(extras);
-          all.forEach(renderPictograma);
+          const extras = JSON.parse(localStorage.getItem('extrasPersonas')) || [];
+          const todos = originales.concat(extras);
+          todos.forEach(renderPictograma);
           renderAddTile();
         });
     });
 
-    // Render de cada pictograma
     function renderPictograma(item) {
-      const div   = document.createElement("div");
+      const div = document.createElement("div");
       div.classList.add("pictograma");
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo")) || {};
-      const favs    = usuario.favoritos || [];
-      const isFav   = favs.includes(item.id);
-      const src     = item.imagenData || `../img/pictogramas/${item.imagen}`;
+      const favs = usuario.favoritos || [];
+      const isFav = favs.includes(item.id);
+      const src = item.imagenData || `../img/pictogramas/${item.imagen}`;
       div.innerHTML = `
         <div class="pic-box">
           <div class="pic-header">
@@ -126,7 +119,6 @@
       container.appendChild(div);
     }
 
-    // Tile “+” para añadir un nuevo pictograma de personas
     function renderAddTile() {
       const div = document.createElement("div");
       div.classList.add("pictograma","add");
@@ -142,7 +134,7 @@
         const reader = new FileReader();
         reader.onload = () => {
           const dataURL = reader.result;
-          const nombre  = prompt("Nombre del nuevo pictograma:");
+          const nombre = prompt("Nombre del nuevo pictograma:");
           if (!nombre) return;
           const nuevo = { id: Date.now(), nombre, imagenData: dataURL };
           const extras = JSON.parse(localStorage.getItem('extrasPersonas')) || [];
@@ -158,7 +150,6 @@
       container.appendChild(div);
     }
 
-    // Togglear favorito
     function toggleFavorito(id, iconEl) {
       let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
       if (!usuario) return alert("Inicia sesión primero.");
@@ -167,11 +158,18 @@
       if (idx === -1) usuario.favoritos.push(id);
       else            usuario.favoritos.splice(idx,1);
       localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const uIdx = usuarios.findIndex(u => u.email === usuario.email);
+      if (uIdx > -1) {
+        usuarios[uIdx].favoritos = usuario.favoritos;
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      }
+
       iconEl.classList.toggle('fas');
       iconEl.classList.toggle('far');
     }
 
-    // Reproducción de voz
     function reproducirVoz(texto) {
       const u = new SpeechSynthesisUtterance(texto);
       u.lang = "es-ES";

@@ -5,15 +5,9 @@
   <title>Pronombres - TalenTea</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../css/style.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Corazón rojo al marcar favorito */
     .favorito.fas { color: red; }
-
-    /* Tarjeta “+” para añadir */
     .pictograma.add {
       cursor: pointer;
       display: flex;
@@ -58,9 +52,9 @@
 
   <!-- Footer -->
   <footer class="footer-nav">
-    <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
-    <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
-    <a href="perfil.html"><i class="fas fa-user"></i><br />Perfil</a>
+    <a href="menu.html"><i class="fas fa-home"></i><br>Inicio</a>
+    <a href="consejos.html"><i class="fas fa-lightbulb"></i><br>Consejos</a>
+    <a href="perfil.html"><i class="fas fa-user"></i><br>Perfil</a>
   </footer>
 
   <script>
@@ -69,7 +63,7 @@
     const cerrarBtn = document.getElementById('cerrarSesionBtn');
     const container = document.getElementById('pictogramas');
 
-    // Abrir/cerrar sidebar
+    // Menú hamburguesa
     menuIcon.addEventListener('click', e => {
       e.stopPropagation();
       sidebar.classList.toggle('active');
@@ -89,27 +83,27 @@
       }
     });
 
-    // Carga inicial de pronombres
+    // Carga de pronombres
     document.addEventListener("DOMContentLoaded", () => {
       fetch("../js/data.json")
         .then(r => r.json())
         .then(data => {
           const originales = data.pictogramas.pronombres;
-          const extras      = JSON.parse(localStorage.getItem('extrasPronombres')) || [];
-          const all         = originales.concat(extras);
-          all.forEach(renderPictograma);
+          const extras = JSON.parse(localStorage.getItem('extrasPronombres')) || [];
+          const todos = originales.concat(extras);
+          todos.forEach(renderPictograma);
           renderAddTile();
         });
     });
 
-    // Render de cada pictograma
     function renderPictograma(item) {
-      const div   = document.createElement("div");
+      const div = document.createElement("div");
       div.classList.add("pictograma");
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo")) || {};
-      const favs    = usuario.favoritos || [];
-      const isFav   = favs.includes(item.id);
-      const src     = item.imagenData || `../img/pictogramas/${item.imagen}`;
+      const favs = usuario.favoritos || [];
+      const isFav = favs.includes(item.id);
+      const src = item.imagenData || `../img/pictogramas/${item.imagen}`;
+
       div.innerHTML = `
         <div class="pic-box">
           <div class="pic-header">
@@ -126,7 +120,6 @@
       container.appendChild(div);
     }
 
-    // Tile “+” para añadir un nuevo pronombre
     function renderAddTile() {
       const div = document.createElement("div");
       div.classList.add("pictograma","add");
@@ -158,7 +151,6 @@
       container.appendChild(div);
     }
 
-    // Marcar/desmarcar favorito
     function toggleFavorito(id, iconEl) {
       let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
       if (!usuario) return alert("Inicia sesión primero.");
@@ -167,11 +159,19 @@
       if (idx === -1) usuario.favoritos.push(id);
       else            usuario.favoritos.splice(idx,1);
       localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+      // Actualizar en el array global de usuarios también
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const uIdx = usuarios.findIndex(u => u.email === usuario.email);
+      if (uIdx > -1) {
+        usuarios[uIdx].favoritos = usuario.favoritos;
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      }
+
       iconEl.classList.toggle('fas');
       iconEl.classList.toggle('far');
     }
 
-    // Reproducción de voz
     function reproducirVoz(texto) {
       const u = new SpeechSynthesisUtterance(texto);
       u.lang = "es-ES";

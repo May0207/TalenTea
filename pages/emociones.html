@@ -10,9 +10,9 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
   <style>
-    /* Favorito relleno en rojo */
+    /* Corazón relleno en favoritos */
     .favorito.fas { color: red; }
-    /* Tile “+” */
+    /* Tile “+” para añadir nuevos pictogramas */
     .pictograma.add {
       cursor: pointer;
       display: flex;
@@ -27,9 +27,7 @@
       color: #666;
       transition: background .2s;
     }
-    .pictograma.add:hover {
-      background: #e0e0e0;
-    }
+    .pictograma.add:hover { background: #e0e0e0; }
   </style>
 </head>
 <body>
@@ -57,7 +55,7 @@
     <div id="pictogramas" class="pictogramas"></div>
   </main>
 
-  <!-- Footer nav -->
+  <!-- Footer -->
   <footer class="footer-nav">
     <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
     <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
@@ -70,18 +68,18 @@
     const cerrarBtn = document.getElementById('cerrarSesionBtn');
     const container = document.getElementById('pictogramas');
 
-    // Toggle sidebar
+    // 1) Toggle sidebar
     menuIcon.addEventListener('click', e => {
       e.stopPropagation();
       sidebar.classList.toggle('active');
     });
+    // 2) Close sidebar on outside click
     document.addEventListener('click', e => {
       if (!sidebar.contains(e.target) && !menuIcon.contains(e.target)) {
         sidebar.classList.remove('active');
       }
     });
-
-    // Cerrar sesión
+    // 3) Logout
     cerrarBtn.addEventListener('click', e => {
       e.preventDefault();
       if (confirm("¿Deseas cerrar sesión?")) {
@@ -90,27 +88,28 @@
       }
     });
 
-    // Al cargar página
+    // 4) Load and render pictograms
     document.addEventListener("DOMContentLoaded", () => {
       fetch("../js/data.json")
         .then(r => r.json())
         .then(data => {
           const originales = data.pictogramas.emociones;
           const extras      = JSON.parse(localStorage.getItem('extrasEmociones')) || [];
-          const todas       = originales.concat(extras);
-          todas.forEach(renderPictograma);
+          originales.concat(extras).forEach(renderPictograma);
           renderAddTile();
         });
     });
 
-    // Render pictograma
+    // Render one pictogram
     function renderPictograma(item) {
       const div = document.createElement("div");
       div.classList.add("pictograma");
+
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo")) || {};
       const favs    = usuario.favoritos || [];
       const isFav   = favs.includes(item.id);
       const src     = item.imagenData || `../img/pictogramas/${item.imagen}`;
+
       div.innerHTML = `
         <div class="pic-box">
           <div class="pic-header">
@@ -127,11 +126,12 @@
       container.appendChild(div);
     }
 
-    // Render tile “+”
+    // Tile "+" to add a new pictogram
     function renderAddTile() {
       const div = document.createElement("div");
       div.classList.add("pictograma","add");
       div.innerHTML = `<i class="fas fa-plus"></i>`;
+
       const fileInput = document.createElement("input");
       fileInput.type = "file";
       fileInput.accept = "image/*";
@@ -159,20 +159,32 @@
       container.appendChild(div);
     }
 
-    // Toggle favorito
+    // Toggle favorite and persist
     function toggleFavorito(id, iconEl) {
       let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      if (!usuario) return alert("Inicia sesión primero.");
+      if (!usuario) {
+        alert("Inicia sesión primero.");
+        return;
+      }
       usuario.favoritos = usuario.favoritos || [];
       const idx = usuario.favoritos.indexOf(id);
       if (idx === -1) usuario.favoritos.push(id);
       else            usuario.favoritos.splice(idx,1);
       localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+      // Also update in the master 'usuarios' array
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const uIdx = usuarios.findIndex(u => u.email === usuario.email);
+      if (uIdx > -1) {
+        usuarios[uIdx].favoritos = usuario.favoritos;
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      }
+
       iconEl.classList.toggle('fas');
       iconEl.classList.toggle('far');
     }
 
-    // Voz
+    // Speech synthesis
     function reproducirVoz(texto) {
       const u = new SpeechSynthesisUtterance(texto);
       u.lang = "es-ES";

@@ -12,8 +12,8 @@
   <style>
     .notificaciones {
       max-width: 600px;
-      margin: 0 auto;
-      background: white;
+      margin: 20px auto;
+      background: #fff;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       padding: 20px;
@@ -35,58 +35,49 @@
   </style>
 </head>
 <body>
-  <!-- Barra superior -->
+  <!-- Topbar -->
   <div class="topbar">
     <h3>Notificaciones</h3>
-    <div class="menu-icon" onclick="toggleSidebar()">
-      <i class="fas fa-bars"></i>
-    </div>
+    <div class="menu-icon"><i class="fas fa-bars"></i></div>
   </div>
 
-  <!-- Menú hamburguesa lateral -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <ul class="sidebar-list">
-      <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+      <li><a href="menu.html"><i class="fas fa-home"></i> Inicio</a></li>
       <li><a href="favoritos.html"><i class="fas fa-star"></i> Favoritos</a></li>
-      <li><a href="notificaciones.html"><i class="fas fa-bell"></i> Notificaciones</a></li>
+      <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
       <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
     </ul>
     <div class="cerrar-sesion">
-      <a href="#" onclick="cerrarSesion()"
-        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
-      >
+      <a href="#" id="cerrarSesionBtn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     </div>
   </div>
 
+  <!-- Contenido -->
   <main class="container">
     <div class="notificaciones">
       <h3>Preferencias de Notificaciones</h3>
-
       <label>
         Permitir notificaciones
         <input type="checkbox" id="permiteNotif">
       </label>
-
       <label>
         Vibración
         <input type="checkbox" id="vibracion">
       </label>
-
       <label>
         Sonido
         <input type="checkbox" id="sonido">
       </label>
-
       <label>
         Recordatorio de uso diario
         <input type="checkbox" id="recordatorio">
       </label>
-
       <label>
         Consejo del día
         <input type="checkbox" id="consejoDia">
       </label>
-
       <label>
         Horario de notificación
         <input type="time" id="horaNotif" value="09:00">
@@ -94,7 +85,7 @@
     </div>
   </main>
 
-  <!-- Barra inferior -->
+  <!-- Footer -->
   <footer class="footer-nav">
     <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
     <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
@@ -102,27 +93,38 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
+    const sidebar   = document.getElementById('sidebar');
+    const menuIcon  = document.querySelector('.menu-icon');
+    const cerrarBtn = document.getElementById('cerrarSesionBtn');
+    const inputs    = ['permiteNotif','vibracion','sonido','recordatorio','consejoDia','horaNotif'];
 
-    function cerrarSesion() {
+    // Toggle sidebar
+    menuIcon.addEventListener('click', e => {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', e => {
+      if (!sidebar.contains(e.target) && !menuIcon.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Cerrar sesión
+    cerrarBtn.addEventListener('click', e => {
+      e.preventDefault();
       if (confirm("¿Deseas cerrar sesión?")) {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
       }
-    }
+    });
 
-    // Guardar y cargar preferencias (simulado)
-    const inputs = ['permiteNotif', 'vibracion', 'sonido', 'recordatorio', 'consejoDia', 'horaNotif'];
-
+    // Guardar y cargar preferencias
     document.addEventListener('DOMContentLoaded', () => {
       inputs.forEach(id => {
         const el = document.getElementById(id);
-        const value = localStorage.getItem(id);
-        if (el.type === 'checkbox') el.checked = value === 'true';
-        if (el.type === 'time' && value) el.value = value;
-
+        const stored = localStorage.getItem(id);
+        if (el.type === 'checkbox') el.checked = stored === 'true';
+        if (el.type === 'time' && stored) el.value = stored;
         el.addEventListener('change', () => {
           localStorage.setItem(id, el.type === 'checkbox' ? el.checked : el.value);
         });

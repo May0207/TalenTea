@@ -12,10 +12,10 @@
   <style>
     .configuracion {
       max-width: 600px;
-      margin: 0 auto;
-      background: white;
+      margin: 20px auto;
+      background: #fff;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       padding: 20px;
       text-align: left;
     }
@@ -32,6 +32,7 @@
       width: 100%;
       padding: 8px;
       border-radius: 6px;
+      border: 1px solid #ccc;
     }
     .configuracion button {
       margin-top: 20px;
@@ -42,32 +43,33 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    .configuracion button + button {
+      margin-left: 10px;
+      background-color: #007bff;
+    }
   </style>
 </head>
 <body>
-  <!-- Barra superior -->
+  <!-- Topbar -->
   <div class="topbar">
     <h3>Configuración</h3>
-    <div class="menu-icon" onclick="toggleSidebar()">
-      <i class="fas fa-bars"></i>
-    </div>
+    <div class="menu-icon"><i class="fas fa-bars"></i></div>
   </div>
 
-  <!-- Menú hamburguesa lateral -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <ul class="sidebar-list">
-      <li><a href="configuracion.html"><i class="fas fa-cog"></i> Configuración</a></li>
+      <li><a href="menu.html"><i class="fas fa-home"></i> Inicio</a></li>
       <li><a href="favoritos.html"><i class="fas fa-star"></i> Favoritos</a></li>
       <li><a href="notificaciones.html"><i class="fas fa-bell"></i> Notificaciones</a></li>
       <li><a href="#"><i class="fas fa-lightbulb"></i> Guía rápida de uso</a></li>
     </ul>
     <div class="cerrar-sesion">
-      <a href="#" onclick="cerrarSesion()"
-        ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a
-      >
+      <a href="#" id="cerrarSesionBtn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     </div>
   </div>
 
+  <!-- Contenido -->
   <main class="container">
     <div class="configuracion">
       <h3>Configuración de la App</h3>
@@ -89,14 +91,16 @@
 
       <label>🧩 Gestión de pictogramas:</label>
       <button onclick="alert('Esta función se implementará pronto')">
-        Añadir / Editar / Eliminar
+        <i class="fas fa-edit"></i> Añadir / Editar / Eliminar
       </button>
 
-      <button onclick="restablecerApp()">🔁 Restablecer aplicación</button>
+      <button onclick="restablecerApp()">
+        <i class="fas fa-sync-alt"></i> Restablecer aplicación
+      </button>
     </div>
   </main>
 
-  <!-- Barra inferior -->
+  <!-- Footer -->
   <footer class="footer-nav">
     <a href="menu.html"><i class="fas fa-home"></i><br />Inicio</a>
     <a href="consejos.html"><i class="fas fa-lightbulb"></i><br />Consejos</a>
@@ -104,23 +108,61 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
+    const sidebar   = document.getElementById('sidebar');
+    const menuIcon  = document.querySelector('.menu-icon');
+    const cerrarBtn = document.getElementById('cerrarSesionBtn');
 
-    function cerrarSesion() {
-      if (confirm("¿Estás seguro de que deseas borrar todos los datos y restablecer la app?")) {
+    // Abrir/cerrar sidebar
+    menuIcon.addEventListener('click', e => {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', e => {
+      if (!sidebar.contains(e.target) && !menuIcon.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Cerrar sesión
+    cerrarBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (confirm("¿Deseas cerrar sesión?")) {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
       }
-    }
+    });
 
+    // Restablecer favoritos en sesión y en array 'usuarios', y eliminar extras
     function restablecerApp() {
-      if (confirm("¿Estás seguro de que deseas borrar todos los datos y restablecer la app?")) {
-        localStorage.clear();
-        alert("Aplicación restablecida.");
-        location.reload();
+      if (!confirm(
+        "¿Seguro que quieres restablecer la app?\n" +
+        "Se eliminarán tus favoritos y pictogramas añadidos,\n" +
+        "pero seguirás con tu sesión iniciada."
+      )) return;
+
+      // 1) Vaciar favoritos en usuarioActivo
+      const activeJson = localStorage.getItem("usuarioActivo");
+      if (activeJson) {
+        const user = JSON.parse(activeJson);
+        user.favoritos = [];
+        localStorage.setItem("usuarioActivo", JSON.stringify(user));
+        // 2) Reflejar en array 'usuarios'
+        const allUsers = JSON.parse(localStorage.getItem("usuarios")) || [];
+        const idx = allUsers.findIndex(u => u.email === user.email);
+        if (idx > -1) {
+          allUsers[idx].favoritos = [];
+          localStorage.setItem("usuarios", JSON.stringify(allUsers));
+        }
       }
+
+      // 3) Borrar extras de pictogramas
+      [
+        'extrasComidas','extrasEmociones','extrasAcciones',
+        'extrasPronombres','extrasLugares','extrasPersonas'
+      ].forEach(key => localStorage.removeItem(key));
+
+      alert("La app se ha restablecido correctamente. Favoritos y extras eliminados.");
+      location.reload();
     }
   </script>
 </body>
